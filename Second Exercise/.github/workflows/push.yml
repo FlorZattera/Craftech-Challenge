@@ -16,4 +16,18 @@ name: deploy
                tag_with_sha: true
                  tags: ${{ github.sha }}
           
+   name: deploy to cluster
+   uses: steebchen/kubectl@master
+   env:
+     KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+    with:
+      args: set image --record deployment/craftech-challenge test-gha${{ github.repository }}:${{ github.sha }}
+        name: verify deployment
+        uses: steebchen/kubectl@master
+      env: 
+    KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+    KUBECTL_VERSION: "1.15"
+   with:
+     args: '"rollout status deployment/craftech-challenge"$
+
 
