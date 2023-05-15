@@ -1,5 +1,7 @@
 on: push
 name: deploy
+permissions:
+  contents: write
 jobs:
   deploy:
     name: deploy to cluster
