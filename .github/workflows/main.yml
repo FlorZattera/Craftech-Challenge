@@ -17,17 +17,17 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         push: true
-        tags: FlorZattera/craft-challenge:latest
+        tags: florzattera/craft-challenge:latest
         context: third_exercise/my-app
           
     - name: deploy to cluster
       uses: steebchen/kubectl@v2.0.0
       with: # defaults to latest kubectl binary version
         config: ${{ secrets.KUBE_CONFIG_DATA }}
-        command: set image --record FlorZattera/craft-challenge container=${{ github.repository }}:${{ github.sha }}
+        command: set image --record florzattera/craft-challenge container=${{ github.repository }}:${{ github.sha }}
     - name: verify deployment
       uses: steebchen/kubectl@v2.0.0
       with:
         config: ${{ secrets.KUBE_CONFIG_DATA }}
         version: v1.21.0 # specify kubectl binary version explicitly
-        command: rollout status FlorZattera/craft-challenge
+        command: rollout status florzattera/craft-challenge
