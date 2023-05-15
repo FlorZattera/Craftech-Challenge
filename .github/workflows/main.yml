@@ -19,6 +19,13 @@ jobs:
         push: true
         tags: florzattera/craft-challenge:latest
         context: third_exercise/my-app
+
+    - name: Build python app and push
+      uses: docker/build-push-action@v4
+      with:
+        push: true
+        tags: florzattera/craft-challenge-python-app:latest
+        context: second_exercise/backend
           
     - name: deploy to cluster
       uses: steebchen/kubectl@v2.0.0
@@ -31,3 +38,15 @@ jobs:
         config: ${{ secrets.KUBE_CONFIG_DATA }}
         version: v1.21.0 # specify kubectl binary version explicitly
         command: rollout status florzattera/craft-challenge
+
+    - name: deploy python app
+      uses: steebchen/kubectl@v2.0.0
+      with: # defaults to latest kubectl binary version
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        command: set image --record florzattera/craft-challenge-python-app container=${{ github.repository }}:${{ github.sha }}
+    - name: verify deployment
+      uses: steebchen/kubectl@v2.0.0
+      with:
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        version: v1.21.0 # specify kubectl binary version explicitly
+        command: rollout status florzattera/craft-challenge-python-app
