@@ -18,7 +18,7 @@ jobs:
       with:
         push: true
         tags: FlorZattera/craft-challenge:latest
-        context: Third\ Exercise/my-app
+        context: third_exercise/my-app
           
     - name: deploy to cluster
       uses: steebchen/kubectl@v2.0.0
